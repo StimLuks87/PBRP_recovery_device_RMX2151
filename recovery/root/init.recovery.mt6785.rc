@@ -40,25 +40,7 @@ on fs
     install_keyring
     setprop crypto.ready 1    
     write /sys/class/oplus_chg/usb/otg_switch 1
-    write /sys/class/power_supply/usb/otg_switch 1
-    
-on property:vendor.sys.listener.registered=true
-    start gatekeeper-1-0
-    start keymaster-4-1
-    start gatekeeper-1-0    
-
-service hwservicemanager /system/bin/hwservicemanager
-    user root
-    group root readproc
-    disabled
-    onrestart setprop hwservicemanager.ready false
-    seclabel u:r:recovery:s0
-
-service servicemanager /system/bin/servicemanager
-    user root
-    group root readproc
-    disabled
-    seclabel u:r:recovery:s0
+    write /sys/class/power_supply/usb/otg_switch 1 
 
 service charger /system/bin/charger
     class charger
@@ -164,34 +146,13 @@ service power-hal-1-0 /vendor/bin/hw/vendor.mediatek.hardware.mtkpower@1.0-servi
     seclabel u:r:recovery:s0
     
     
-##/**** Add for OPLUS FBE 
+##/**** ADD fOR OPLUS FBE ****/##
 
 service keystore2 /system/bin/keystore2 /data/misc/keystore
     class early_hal
     user root
     group root readproc log
     writepid /dev/cpuset/foreground/tasks
-    disabled
-    seclabel u:r:recovery:s0
-
-service vendor.gatekeeper-1-0 /system/bin/hw/android.hardware.gatekeeper@1.0-service
-    class hal
-    user root
-    group root
-    disabled
-    seclabel u:r:recovery:s0  
-
-service soter_hal /system/bin/hw/vendor.trustonic.soter@1.0-service
-    class late_start
-    user root
-    group root
-    disabled
-    seclabel u:r:recovery:s0
-
-service vendor.keymaster-4-0 /system/bin/hw/android.hardware.keymaster@4.0-service.trustonic
-    class early_hal
-    user root
-    group root drmrpc
     disabled
     seclabel u:r:recovery:s0
 
@@ -223,20 +184,6 @@ on property:sys.boot_completed=1
 ## ************************************************************************/
 ## ************************************************************************/
 
-service tee-1-1 /system/bin/hw/vendor.trustonic.tee@1.1-service
-    class hal
-    user root
-    group root
-    disabled
-    seclabel u:r:recovery:s0
-
-service keymaster_attestation-1-1 /system/bin/hw/vendor.mediatek.hardware.keymaster_attestation@1.1-service
-    class hal
-    user root
-    group root
-    disabled
-    seclabel u:r:recovery:s0
-
 service mobicore /vendor/bin/mcDriverDaemon --P1 /mnt/vendor/persist/mcRegistry \
     -r /vendor/app/mcRegistry/020f0000000000000000000000000000.drbin \
     -r /vendor/app/mcRegistry/05120000000000000000000000000000.drbin \
@@ -258,11 +205,68 @@ service mobicore /vendor/bin/mcDriverDaemon --P1 /mnt/vendor/persist/mcRegistry 
     disabled
     seclabel u:r:recovery:s0
 
-on property:sys.listeners.registered=true && property:vendor.sys.listeners.registered=true
+service hwservicemanager /system/bin/hwservicemanager
+    user root
+    group root readproc
+    disabled
+    onrestart setprop hwservicemanager.ready false
+    seclabel u:r:recovery:s0
+
+service servicemanager /system/bin/servicemanager
+    user root
+    group root readproc
+    disabled
+    seclabel u:r:recovery:s0
+
+service keymaster-4-0-trustonic /system/bin/hw/android.hardware.keymaster@4.0-service.trustonic
+    class early_hal
+    user root
+    group root drmrpc
+    disabled
+    seclabel u:r:recovery:s0
+
+service gatekeeperd /system/bin/gatekeeperd /data/misc/gatekeeper
+    class late_start
+    user root
+    group root
+    disabled
+    seclabel u:r:recovery:s0
+
+service gatekeeper-1-0 /system/bin/hw/android.hardware.gatekeeper@1.0-service
+    class hal
+    user root
+    group root
+    disabled
+    seclabel u:r:recovery:s0  
+
+service keymaster_attestation-1-1 /system/bin/hw/vendor.mediatek.hardware.keymaster_attestation@1.1-service
+    class hal
+    user root
+    group root
+    disabled
+    seclabel u:r:recovery:s0
+
+service tee-1-1 /system/bin/hw/vendor.trustonic.tee@1.1-service
+    class hal
+    user root
+    group root
+    disabled
+    seclabel u:r:recovery:s0
+
+service soter_hal /system/bin/hw/vendor.trustonic.soter@1.0-service
+    class late_start
+    user root
+    group root
+    disabled
+    seclabel u:r:recovery:s0
+
+## ***************************************************************************************/
+on property:sys.listener.registered=true && property:vendor.sys.listeners.registered=true
     start hal_cryptoeng_oplus
     start mobicore
-    start vendor.keymaster-4-0
-    start vendor.gatekeeper-1-0
+    start keymaster-4-0-trustonic
+    start gatekeeperd
+    start gatekeeper-1-0
     start keymaster_attestation-1-1
     start tee-1-1
     start soter_hal
@@ -270,11 +274,20 @@ on property:sys.listeners.registered=true && property:vendor.sys.listeners.regis
 on property:hwservicemanager.ready=true
     start hal_cryptoeng_oplus
     start mobicore
-    start vendor.keymaster-4-0
-    start vendor.gatekeeper-1-0
+    start keymaster-4-0-trustonic
+    start gatekeeperd
+    start gatekeeper-1-0
     start keymaster_attestation-1-1
     start tee-1-1
     start soter_hal
+
+on property:ro.crypto.state=unsupported
+    stop teei_daemon
+    stop hal_cryptoeng_oppo
+    stop mobicore
+    stop keymaster-4-0-trustonic
+    stop gatekeeperd
+    stop gatekeeper-1-0
 
 on property:ro.crypto.state=unencrypted
     install_keyring
@@ -282,14 +295,16 @@ on property:ro.crypto.state=unencrypted
     stop teei_daemon
     stop hal_cryptoeng_oplus
     stop mobicore
-    stop vendor.keymaster-4-0
-    stop vendor.gatekeeper-1-0
+    stop keymaster-4-0-trustonic
+    stop gatekeeperd
+    stop gatekeeper-1-0
 
 on property:twrp.all.users.decrypted=true
     stop hal_cryptoeng_oplus
     stop mobicore
-    stop vendor.keymaster-4-0
-    stop vendor.gatekeeper-1-0
+    stop keymaster-4-0-trustonic
+    stop gatekeeperd
+    stop gatekeeper-1-0
     stop keymaster_attestation-1-1
     stop tee-1-1
     stop soter_hal
@@ -299,15 +314,14 @@ on property:enable.fbe.service=0
     stop mobicore
     stop servicemanager
     stop hwservicemanager
-    stop vendor.keymaster-4-0
+    stop keymaster-4-0-trustonic
     stop gatekeeperd
-    stop vendor.gatekeeper-1-0
+    stop gatekeeper-1-0
 
 on property:sys.usb.config=fastboot
     start servicemanager
     start hwservicemanager
     restart fastbootd
-
 
 ##/**** For Test
 

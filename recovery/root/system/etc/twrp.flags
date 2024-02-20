@@ -1,6 +1,6 @@
 ##**********************************************************************************************************************************************************************##
 ##**********************************************************************************************************************************************************************##
-# mount point            fstype                        device                                                 flags                                                      #
+# Mount point            Fstype                        Device                                                 Flags                                                      #
 ##**********************************************************************************************************************************************************************##
 ##**********************************************************************************************************************************************************************##
 
@@ -10,6 +10,7 @@
 /odm                      auto      odm                                                           display="Odm";logical
 /system_ext               auto      system_ext                                                    display="System_ext";logical
 
+##*********
 /recovery                 emmc      /dev/block/platform/bootdevice/by-name/recovery               flags=display="Recovery";backup=1;flashimg=1
 /boot                     emmc      /dev/block/platform/bootdevice/by-name/boot                   flags=display="Boot";backup=1;flashimg=1
 /dtbo                     emmc      /dev/block/platform/bootdevice/by-name/dtbo                   flags=display="Dtbo";backup=1;flashimg=1
@@ -17,7 +18,7 @@
 /vbmeta_system            emmc      /dev/block/platform/bootdevice/by-name/vbmeta_system          flags=display="Vbmeta System";backup=1
 /vbmeta_vendor            emmc      /dev/block/platform/bootdevice/by-name/vbmeta_vendor          flags=display="Vbmeta_Vendor";backup=1
 /vbmeta                   emmc      /dev/block/platform/bootdevice/by-name/vbmeta                 flags=display="Vbmeta";backup=1;flashimg=1
-
+##*********
 /data                     ext4      /dev/block/platform/bootdevice/by-name/data                   flags=display="Data";fileencryption=aes-256-xts:aes-256-cts:inlinecrypt_optimized;backup=1
 /cache                    ext4      /dev/block/platform/bootdevice/by-name/cache                  flags=display="Cache";wipeingui;wipeduringfactoryreset;backup=1
 /metadata                 ext4      /dev/block/platform/bootdevice/by-name/metadata               flags=display="Metadata";wipeingui;wipeduringfactoryreset
@@ -30,6 +31,7 @@
 /protect_s_image          emmc      /dev/block/platform/bootdevice/by-name/protect2               flags=display="Protect_2";backup=1;flashimg=1
 /persist_image            emmc      /dev/block/platform/bootdevice/by-name/persist                flags=display="Persist";backup=1;flashimg=1
 
+##*********
 /persistent               emmc      /dev/block/platform/bootdevice/by-name/frp                    flags=display="Persistent";backup=1;flashimg=1
 /nvram                    emmc      /dev/block/platform/bootdevice/by-name/nvram                  flags=display="NvRam";backup=1;flashimg=1
 /proinfo                  emmc      /dev/block/platform/bootdevice/by-name/proinfo                flags=display="Proinfo";backup=1;flashimg=1
@@ -75,6 +77,7 @@
 /flashinfo                emmc      /dev/block/platform/bootdevice/by-name/flashinfo              flags=display="Flashinfo";backup=1;flashimg=1
 /special_preload          emmc      /dev/block/platform/bootdevice/by-name/special_preload        flags=display="Special_preload";backup=1;flashimg=1
 
+##******
 /sdcard1                  auto      /dev/block/mmcblk0p1 /dev/block/mmcblk0                       flags=display="Micro SdCard";storage;wipeingui;removable;fsflags=utf8
 /usb_otg                  auto      /dev/block/sdd1 /dev/block/sdd                                flags=display="Usb Otg";storage;wipeingui;removable;fsflags=utf8
 /storage                  auto      /data/media/0                                                 flags=display="Internal Storage";usermrf;backup=1;fsflags="bind";removable;

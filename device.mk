@@ -72,6 +72,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.vibrator-service.mediatek
 
+##** Kernel **##
+PRODUCT_SET_DEBUGFS_RESTRICTIONS := true
+
 ##** Lights **##
 PRODUCT_PACKAGES += \
     android.hardware.light-service.mediatek
@@ -158,6 +161,8 @@ PRODUCT_PACKAGES += \
     android.hardware.keymaster@4.0.vendor \
     libkeymaster4.vendor:64 \
     libkeymaster4support.vendor:64 \
+    libkeymaster_portable.vendor:64 \
+    libkeymaster_messages.vendor:64 \
     libsoft_attestation_cert.vendor:64 \
     libpuresoftkeymasterdevice.vendor:64 
     
