@@ -2,35 +2,20 @@
 # This script is needed to automatically set device props.
 ##************************************************************************##
 
-load_RMX2151()
-{
-    resetprop "ro.product.model" "Realme 7"
-    resetprop "ro.product.name" "RMX2151"
-    resetprop "ro.build.product" "RMX2151"
-    resetprop "ro.product.device" "RMX22151"
-    echo "Using default (RMX2151) props"
-}
+prjName=$(cat /proc/oplusVersion/prjVersion)
+echo $prjName
 
-load_RMX2155()
-{
-    resetprop "ro.product.model" "Realme 7"
-    resetprop "ro.product.name" "RMX2155"
-    resetprop "ro.build.product" "RMX2155"
-    resetprop "ro.product.device" "RMX2155"
-    echo "RMX2155 detected - using RMX2155 props"
-}
-
-project=$(cat /proc/oppoVersion/prjVersion)
-echo $project
-
-case $project in
+case $prjName in
     "20682")
-        load_RMX2151
+        resetprop "ro.product.model" "Realme 7"
+        resetprop "ro.build.product" "RMX2151"
+        resetprop "ro.product.device" "RMX2151"
         ;;
     *)
-        load_RMX2001
+        resetprop "ro.product.model" "Realme 6"
+        resetprop "ro.build.product" "RMX2001"
+        resetprop "ro.product.device" "RMX2001"
         ;;
 esac
 
 exit 0
-

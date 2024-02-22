@@ -50,7 +50,7 @@ on early-init
     start vold  
     start ueventd
     start health-hal-2-1
-    start unified-script.sh
+    start init.device.sh
     start vendor.sensors-hal-2-0-multihal
     start vibrator-service.mediatek
     start vendor.gralloc-4-0
@@ -59,6 +59,7 @@ on early-init
     start vendor.usb-hal-1-2
     start vendor.light-default
     start power-hal-1-0
+    start swap_enable.sh
 
 service charger /system/bin/charger
     class charger
@@ -73,11 +74,16 @@ service vibrator-service.mediatek system/bin/android.hardware.vibrator-service.m
     disabled
     seclabel u:r:recovery:s0 
 
-service unified-script.sh /system/bin/unified-script.sh
+service init.device.sh /system/bin/init.device.sh
     user root
     group root
     disabled
-    oneshot
+    seclabel u:r:recovery:s0
+
+service swap_enable.sh /system/bin/swap_enable.sh
+    user root
+    group root
+    disabled
     seclabel u:r:recovery:s0
 
 service ueventd /system/bin/ueventd
