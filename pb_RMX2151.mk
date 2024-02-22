@@ -18,6 +18,7 @@ PRODUCT_BRAND := realme
 PRODUCT_MODEL := RMX2151
 PRODUCT_MANUFACTURER := $(PRODUCT_BRAND)
 PRODUCT_GMS_CLIENTID_BASE := android-$(PRODUCT_MANUFCATURER)
-
+TARGET_VENDOR := realme
+TARGET_VENDOR_PRODUCT_NAME := RMX2151
 ##************************************************************************##
 

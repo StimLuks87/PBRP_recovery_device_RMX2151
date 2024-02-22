@@ -9,38 +9,56 @@ import /tee.rc
 import /init.sensor_1_0.rc
 import /init.aging.rc
 import /vendor.mediatek.hardware.mtkpower@1.0-init.rc
+import /rm6785.debug.rc
 
 on init
     symlink /dev/block/platform/bootdevice /dev/block/bootdevice
-    export LD_LIBRARY_PATH /system/lib64:/vendor/lib64:/vendor/lib64/hw:/system/lib64/hw
-    setprop ro.boot.build.security_patch 2127-12-31
+    export LD_LIBRARY_PATH /system/lib64:/vendor/lib64:/vendor/lib64/hw:/vendor/lib:/vendor/lib/modules:/system/lib64/hw
     mkdir /mnt/vendor/persist
-    mount ext4 /dev/block/platform/bootdevice/by-name/persist /mnt/vendor/persist rw
+    mount ext4 /dev/block/by-name/persist /mnt/vendor/persist rw
     setprop persist.sys.firstlaunch false
     install_keyring
-    setprop crypto.ready 1  
-    
+    setprop crypto.ready 1
+
+##/**** Flashlight
+##/**** EM of MT6360
+    chmod 0664 sys/kernel/debug/rt-regmap/mt6360_pmu.5-0034/data
+    chmod 0664 sys/kernel/debug/rt-regmap/mt6360_pmic.5-001a/data
+    chmod 0664 sys/kernel/debug/rt-regmap/mt6360_ldo.5-0064/data
+    chmod 0664 sys/kernel/debug/rt-regmap/mt6360-4e/data
+    chmod 0664 sys/kernel/debug/rt-regmap/mt6360_pmu.5-0034/reg_addr
+    chmod 0664 sys/kernel/debug/rt-regmap/mt6360_pmic.5-001a/reg_addr
+    chmod 0664 sys/kernel/debug/rt-regmap/mt6360_ldo.5-0064/reg_addr
+    chmod 0664 sys/kernel/debug/rt-regmap/mt6360-4e/reg_addr
+    chown system system /sys/class/flashlight/mt-flash-led1
+    chown system system /sys/class/flashlight/mt-flash-led1/torch_brightness
+    chown system system /sys/class/flashlight/mt-flash-led1/torch_max_brightness
+    chown system system /sys/class/flashlight/mt-flash-led1/mode
+    chown system system /sys/class/flashlight/mt-flash-led1/type
+    chown system system /sys/class/flashlight/mt-flash-led1/strobe_brightness
+    chown system system /sys/class/flashlight/mt-flash-led1/strobe_max_brightness
+    chmod 0777 /sys/class/flashlight/mt-flash-led1
+    chmod 0777 /sys/class/flashlight/mt-flash-led1/torch_brightness
+    chmod 0777 /sys/class/flashlight/mt-flash-led1/torch_max_brightness
+    chmod 0777 /sys/class/flashlight/mt-flash-led1/mode
+    chmod 0777 /sys/class/flashlight/mt-flash-led1/type
+    chmod 0777 /sys/class/flashlight/mt-flash-led1/strobe_brightness
+    chmod 0777 /sys/class/flashlight/mt-flash-led1/strobe_max_brightness
+
 on early-init 
     start adbd
     start vold  
     start ueventd
     start health-hal-2-1
-    start init-device-sh
-    start vendor.vibrator-service.mediatek
-    #start charger
+    start unified-script.sh
     start vendor.sensors-hal-2-0-multihal
+    start vibrator-service.mediatek
     start vendor.gralloc-4-0
     start vendor.hwcomposer-2-2
     start vendor.memtrack-hal-1-0
     start vendor.usb-hal-1-2
     start vendor.light-default
     start power-hal-1-0
-
-on fs
-    install_keyring
-    setprop crypto.ready 1    
-    write /sys/class/oplus_chg/usb/otg_switch 1
-    write /sys/class/power_supply/usb/otg_switch 1 
 
 service charger /system/bin/charger
     class charger
@@ -49,16 +67,17 @@ service charger /system/bin/charger
     disabled
     seclabel u:r:recovery:s0
     
-service vendor.vibrator-service.mediatek system/bin/android.hardware.vibrator-service.mediatek
+service vibrator-service.mediatek system/bin/android.hardware.vibrator-service.mediatek
     user root
     group root
     disabled
     seclabel u:r:recovery:s0 
 
-service init-device-sh /system/bin/init.device.sh
+service unified-script.sh /system/bin/unified-script.sh
     user root
     group root
     disabled
+    oneshot
     seclabel u:r:recovery:s0
 
 service ueventd /system/bin/ueventd
@@ -144,8 +163,7 @@ service power-hal-1-0 /vendor/bin/hw/vendor.mediatek.hardware.mtkpower@1.0-servi
     group root readproc wifi media media_rw camera audio
     disabled
     seclabel u:r:recovery:s0
-    
-    
+
 ##/**** ADD fOR OPLUS FBE ****/##
 
 service keystore2 /system/bin/keystore2 /data/misc/keystore
@@ -286,7 +304,6 @@ on property:ro.crypto.state=unsupported
     stop hal_cryptoeng_oppo
     stop mobicore
     stop keymaster-4-0-trustonic
-    stop gatekeeperd
     stop gatekeeper-1-0
 
 on property:ro.crypto.state=unencrypted
@@ -296,7 +313,6 @@ on property:ro.crypto.state=unencrypted
     stop hal_cryptoeng_oplus
     stop mobicore
     stop keymaster-4-0-trustonic
-    stop gatekeeperd
     stop gatekeeper-1-0
 
 on property:twrp.all.users.decrypted=true
@@ -364,4 +380,3 @@ on post-fs
     symlink /dev/block/mapper/pl_b /dev/block/platform/bootdevice/by-name/preloader_raw_b
 
     exec u:r:update_engine:s0 root root -- /system/bin/mtk_plpath_utils
-

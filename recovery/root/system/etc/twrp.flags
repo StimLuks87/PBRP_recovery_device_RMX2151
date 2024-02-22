@@ -25,12 +25,9 @@
 /md_udc                   emmc      /dev/block/platform/bootdevice/by-name/md_udc                 flags=display="Md_udc";backup=1;flashimg=1
 /nvdata                   ext4      /dev/block/platform/bootdevice/by-name/nvdata                 flags=display="Nvdata";backup=1;subpartitionof=/nvram
 /nvcfg                    ext4      /dev/block/platform/bootdevice/by-name/nvcfg                  flags=display="Nvcfg";backup=1;subpartitionof=/nvram
-/protect_f                ext4      /dev/block/platform/bootdevice/by-name/protect1               flags=display="Protect_1"
-/protect_s                ext4      /dev/block/platform/bootdevice/by-name/protect2               flags=display="Protect_2"
-/protect_f_image          emmc      /dev/block/platform/bootdevice/by-name/protect1               flags=display="Protect_1";backup=1;flashimg=1
-/protect_s_image          emmc      /dev/block/platform/bootdevice/by-name/protect2               flags=display="Protect_2";backup=1;flashimg=1
+/protect_f                ext4      /dev/block/platform/bootdevice/by-name/protect1               flags=display="Protect_1";backup=1;flashimg=1
+/protect_s                ext4      /dev/block/platform/bootdevice/by-name/protect2               flags=display="Protect_2";backup=1;flashimg=1
 /persist_image            emmc      /dev/block/platform/bootdevice/by-name/persist                flags=display="Persist";backup=1;flashimg=1
-
 ##*********
 /persistent               emmc      /dev/block/platform/bootdevice/by-name/frp                    flags=display="Persistent";backup=1;flashimg=1
 /nvram                    emmc      /dev/block/platform/bootdevice/by-name/nvram                  flags=display="NvRam";backup=1;flashimg=1

@@ -1,5 +1,6 @@
 # Additional System Properties
 ro.mediatek.platform=mt6785
+ro.product.device=RMX2151L1
 
 # USB
 ro.secure=0
@@ -9,5 +10,6 @@ ro.sys.usb.bicr=yes
 ro.sys.usb.charging.only=no
 ro.sys.usb.mtp.whql.enable=0
 ro.sys.usb.storage.type=mtp,mass_storage
+persist.sys.isUsbOtgEnabled=true
 persist.service.adb.enable=1
 persist.sys.usb.config=mtp,adb
