@@ -1,6 +1,6 @@
 # Additional System Properties
 ro.mediatek.platform=mt6785
-#ro.product.device=RMX2151L1
+ro.product.device=RMX2151L1
 
 # USB
 ro.secure=0

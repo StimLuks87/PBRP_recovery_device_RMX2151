@@ -1,5 +1,0 @@
-service rm6785-debugger /system/bin/rm6785-debugger
-    user root
-    group root
-    seclabel u:r:recovery:s0
-

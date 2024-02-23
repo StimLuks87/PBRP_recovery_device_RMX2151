@@ -136,12 +136,10 @@ BOARD_BOOTIMAGE_PARTITION_SIZE := 33554432
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 102760448
 BOARD_DTBOIMG_PARTITION_SIZE := 8388608
 BOARD_CACHEIMAGE_PARTITION_SIZE := 452984832
-##**
 BOARD_SYSTEMIMAGE_PARTITION_TYPE := ext4
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := f2fs
 BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
-##**
 TARGET_COPY_OUT_VENDOR := vendor
 TARGET_USES_MKE2FS := true
 ##**
@@ -167,7 +165,7 @@ TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 RECOVERY_GRAPHICS_USE_LINELENGTH := true
 BOARD_USE_FRAMEBUFFER_ALPHA_CHANNEL := true
-BOARD_SPRUPESS_EMMC_WIPE := true
+#BOARD_SPRUPESS_EMMC_WIPE := true
 RECOVERY_SDCARD_ON_DATA := true   
 BOARD_INCLUDE_RECOVERY_DTBO := true              
 BOARD_HAS_NO_SELECT_BUTTON := true
@@ -246,8 +244,8 @@ TW_CUSTOM_CPU_TEMP_PATH := /sys/class/power_supply/battery/temp
 TARGET_USE_CUSTOM_LUN_FILE_PATH := /config/usb_gadget/g1/functions/mass_storage.0/lun.%d/file
 TW_INCLUDE_LOGICAL := my_product my_engineering my_company my_carrier my_region my_heytap my_stock my_preload my_bigball my_manifest
 TW_HAS_USB_STORAGE := true
-TW_LOAD_VENDOR_BOOT_MODULES := true
-TW_LOAD_VENDOR_MODULES := "flashlight.ko flashlight-core.ko flashlights-mt6360.ko rt-flashlight.ko rtfled.ko"
+#TW_LOAD_VENDOR_BOOT_MODULES := true
+TW_LOAD_VENDOR_MODULES := "flashlight.o flashlight-core.o flashlights-mt6360.o rt-flashlight.o rtfled.o"
 ENABLE_CPUSETS := true
 ENABLE_SCHEDBOOST := true
 #TW_NEVER_UNMOUNT_SYSTEM := true

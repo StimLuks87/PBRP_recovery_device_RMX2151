@@ -9,15 +9,14 @@ import /tee.rc
 import /init.sensor_1_0.rc
 import /init.aging.rc
 import /vendor.mediatek.hardware.mtkpower@1.0-init.rc
-import /rm6785.debug.rc
 
 on init
-    symlink /dev/block/platform/bootdevice /dev/block/bootdevice
-    export LD_LIBRARY_PATH /system/lib64:/vendor/lib64:/vendor/lib64/hw:/vendor/lib:/vendor/lib/modules:/system/lib64/hw
-    mkdir /mnt/vendor/persist
+    install_keyring
+    mkdir /mnt/vendor/persist 0777 system system
     mount ext4 /dev/block/by-name/persist /mnt/vendor/persist rw
     setprop persist.sys.firstlaunch false
-    install_keyring
+    symlink /dev/block/platform/bootdevice /dev/block/bootdevice
+    export LD_LIBRARY_PATH /system/lib64:/vendor/lib64:/vendor/lib64/hw:/vendor/lib:/vendor/lib/modules:/system/lib64/hw
     setprop crypto.ready 1
 
 ##/**** Flashlight
@@ -59,7 +58,6 @@ on early-init
     start vendor.usb-hal-1-2
     start vendor.light-default
     start power-hal-1-0
-    start swap_enable.sh
 
 service charger /system/bin/charger
     class charger
@@ -75,12 +73,6 @@ service vibrator-service.mediatek system/bin/android.hardware.vibrator-service.m
     seclabel u:r:recovery:s0 
 
 service init.device.sh /system/bin/init.device.sh
-    user root
-    group root
-    disabled
-    seclabel u:r:recovery:s0
-
-service swap_enable.sh /system/bin/swap_enable.sh
     user root
     group root
     disabled
