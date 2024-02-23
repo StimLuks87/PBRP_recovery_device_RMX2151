@@ -6,7 +6,7 @@
 #
 ##************************************************************************##
 
-DEVICE_PATH := device/realme/RMX2151
+DEVICE_PATH := device/oplus/RMX2151
 
 ##** For building with minimal manifest **##
 ALLOW_MISSING_DEPENDENCIES := true
@@ -55,7 +55,7 @@ MTK_HARDWARE := true
 TARGET_KERNEL_VERSION := 4.14
 TARGET_KERNEL_ARCH := arm64
 TARGET_KERNEL_HEADER_ARCH := arm64
-TARGET_KERNEL_SOURCE := kernel/realme/mt6785
+TARGET_KERNEL_SOURCE := kernel/oplus/rm6785
 TARGET_KERNEL_CONFIG := RM6785_defconfig
 TARGET_KERNEL_CLANG_COMPILE := true
 TARGET_KERNEL_CLANG_VERSION := r510928
@@ -165,7 +165,7 @@ TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 RECOVERY_GRAPHICS_USE_LINELENGTH := true
 BOARD_USE_FRAMEBUFFER_ALPHA_CHANNEL := true
-#BOARD_SPRUPESS_EMMC_WIPE := true
+BOARD_SPRUPESS_EMMC_WIPE := true
 RECOVERY_SDCARD_ON_DATA := true   
 BOARD_INCLUDE_RECOVERY_DTBO := true              
 BOARD_HAS_NO_SELECT_BUTTON := true
@@ -245,7 +245,7 @@ TARGET_USE_CUSTOM_LUN_FILE_PATH := /config/usb_gadget/g1/functions/mass_storage.
 TW_INCLUDE_LOGICAL := my_product my_engineering my_company my_carrier my_region my_heytap my_stock my_preload my_bigball my_manifest
 TW_HAS_USB_STORAGE := true
 #TW_LOAD_VENDOR_BOOT_MODULES := true
-TW_LOAD_VENDOR_MODULES := "flashlight.o flashlight-core.o flashlights-mt6360.o rt-flashlight.o rtfled.o"
+TW_LOAD_VENDOR_MODULES := "flashlight.ko flashlight-core.ko flashlights-mt6360.ko rt-flashlight.ko rtfled.ko"
 ENABLE_CPUSETS := true
 ENABLE_SCHEDBOOST := true
 #TW_NEVER_UNMOUNT_SYSTEM := true
@@ -308,8 +308,6 @@ MAINTAINER := Stim@Luks
 #ifeq ($(CUSTOM_TWRP_VERSION),)
 #CUSTOM_TWRP_VERSION := $(shell date +%Y%m%d)-01
 #endif
- 
-##** properties **##
 
 ##** Inherit the proprietary files **##
-#include vendor/realme/RMX2151/BoardConfigVendor.mk
+#include vendor/oplus/RMX2151/BoardConfigVendor.mk

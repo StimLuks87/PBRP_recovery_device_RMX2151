@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 ##************************************************************************##
 
-LOCAL_PATH := device/realme/RMX2151
+LOCAL_PATH := device/oplus/RMX2151
 
 # HACK: Set vendor patch level **##
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -176,4 +176,4 @@ PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH)
 
 ##** Inherit the proprietary files **##
-#$(call inherit-product, vendor/realme/RMX2151/RMX2151-vendor.mk)
+#$(call inherit-product, vendor/oplus/RMX2151/RMX2151-vendor.mk)

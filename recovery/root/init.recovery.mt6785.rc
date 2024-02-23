@@ -7,7 +7,7 @@
 import /init.trustonic.rc
 import /tee.rc
 import /init.sensor_1_0.rc
-import /init.aging.rc
+import /system/etc/init.aging.rc
 import /vendor.mediatek.hardware.mtkpower@1.0-init.rc
 
 on init
@@ -17,7 +17,13 @@ on init
     setprop persist.sys.firstlaunch false
     symlink /dev/block/platform/bootdevice /dev/block/bootdevice
     export LD_LIBRARY_PATH /system/lib64:/vendor/lib64:/vendor/lib64/hw:/vendor/lib:/vendor/lib/modules:/system/lib64/hw
+    setprop sys.usb.ffs.aio_compat 1
+    setprop sys.usb.configfs 1
     setprop crypto.ready 1
+
+on property:sys.boot_completed=1
+    # OTG
+    write /sys/class/power_supply/usb/otg_switch 1
 
 ##/**** Flashlight
 ##/**** EM of MT6360
