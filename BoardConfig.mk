@@ -55,8 +55,8 @@ MTK_HARDWARE := true
 TARGET_KERNEL_VERSION := 4.14
 TARGET_KERNEL_ARCH := arm64
 TARGET_KERNEL_HEADER_ARCH := arm64
-TARGET_KERNEL_SOURCE := kernel/oplus/rm6785
-TARGET_KERNEL_CONFIG := RM6785_defconfig
+TARGET_KERNEL_SOURCE := kernel/oplus/salaa6785
+TARGET_KERNEL_CONFIG := salaa_defconfig
 TARGET_KERNEL_CLANG_COMPILE := true
 TARGET_KERNEL_CLANG_VERSION := r510928
 TARGET_CLANG_PREBUILTS_VERSION := r510928
@@ -111,7 +111,7 @@ BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOTIMG_HEADER_VERSION)
 ##************************************************************************##
 
 ##** Assert **##
-TARGET_OTA_ASSERT_DEVICE := RMX2001,RMX2001L1,RMX2151,RMX2151L1,RMX2155,RMX2155L1,RMX2156,RMX2156L1,RMX2161,RMX2161L1,RMX2163,RMX2163L1,RM6785
+TARGET_OTA_ASSERT_DEVICE := RMX2001,RMX2001L1,RMX2151,RMX2151L1,RMX2155,RMX2155L1,RMX2156,RMX2156L1,RM6785
 
 ##** Metadata **##
 BOARD_USES_METADATA_PARTITION := true
@@ -179,7 +179,7 @@ TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
 ##** Display Size & Density **##
 TARGET_SCREEN_HEIGHT := 2400
 TARGET_SCREEN_WIDTH := 1080
-TARGET_SCREEN_DENSITY := 480
+TARGET_SCREEN_DENSITY := 420
 
 ##** DRM **##
 TARGET_ENABLE_MEDIADRM_64 := true
@@ -229,7 +229,7 @@ TW_USE_TOOLBOX := true
 TW_INCLUDE_FASTBOOTD := true
 TW_FRAMERATE := 60
 TW_DEFAULT_LANGUAGE := ru
-TW_OZIP_DECRYPT_KEY := "1c4c1ea3a12531ae491b21bb31613c11"
+TW_OZIP_DECRYPT_KEY := 0000
 TW_INCLUDE_FB2PNG := true
 TW_INCLUDE_LIBRESETPROP := true
 TW_INCLUDE_NTFS_3G := true
@@ -243,8 +243,8 @@ TW_CUSTOM_CPU_TEMP_PATH := /sys/class/power_supply/battery/temp
 TARGET_USE_CUSTOM_LUN_FILE_PATH := /config/usb_gadget/g1/functions/mass_storage.0/lun.%d/file
 TW_INCLUDE_LOGICAL := my_product my_engineering my_company my_carrier my_region my_heytap my_stock my_preload my_bigball my_manifest
 TW_HAS_USB_STORAGE := true
-#TW_LOAD_VENDOR_BOOT_MODULES := true
-TW_LOAD_VENDOR_MODULES := "flashlight.ko flashlight-core.ko flashlights-mt6360.ko rt-flashlight.ko rtfled.ko"
+TW_LOAD_VENDOR_BOOT_MODULES := true
+#TW_LOAD_VENDOR_MODULES := "flashlight.bin flashlight-core.bin flashlights-mt6360.bin rt-flashlight.bin rtfled.bin"
 ENABLE_CPUSETS := true
 ENABLE_SCHEDBOOST := true
 #TW_NEVER_UNMOUNT_SYSTEM := true
