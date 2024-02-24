@@ -12,18 +12,17 @@ import /vendor.mediatek.hardware.mtkpower@1.0-init.rc
 
 on init
     install_keyring
+    setprop crypto.ready 1
+    mkdir /mnt/vendor/persist/mcRegistry 0777 system system
     mkdir /mnt/vendor/persist 0777 system system
     mount ext4 /dev/block/by-name/persist /mnt/vendor/persist rw
     setprop persist.sys.firstlaunch false
     symlink /dev/block/platform/bootdevice /dev/block/bootdevice
-    export LD_LIBRARY_PATH /system/lib64:/vendor/lib64:/vendor/lib64/hw:/vendor/lib:/vendor/lib/modules:/system/lib64/hw
-    setprop sys.usb.ffs.aio_compat 1
-    setprop sys.usb.configfs 1
-    setprop crypto.ready 1
-
-on property:sys.boot_completed=1
-    # OTG
-    write /sys/class/power_supply/usb/otg_switch 1
+    export LD_LIBRARY_PATH /system/lib64:/vendor/lib64:/vendor/lib64/hw:/system/lib64/hw:/sbin
+    export PATH /sbin:/system/bin
+    export ANDROID_ROOT /system
+    export ANDROID_DATA /data
+    export EXTERNAL_STORAGE /sdcard
 
 ##/**** Flashlight
 ##/**** EM of MT6360
@@ -165,6 +164,16 @@ service power-hal-1-0 /vendor/bin/hw/vendor.mediatek.hardware.mtkpower@1.0-servi
     capabilities NET_ADMIN
     user root
     group root readproc wifi media media_rw camera audio
+    disabled
+    seclabel u:r:recovery:s0
+
+service logd /system/bin/logd
+    class core
+    socket logd stream 0666 logd logd
+    socket logdr seqpacket 0666 logd logd
+    socket logdw dgram 0222 logd logd
+    user root
+    group root system
     disabled
     seclabel u:r:recovery:s0
 
